@@ -5,7 +5,8 @@ import logo from './logo.png'; // Импортируем логотип
 
 const MainScreen = () => {
   const [connected, setConnected] = useState(false);
-  const [tokens, setTokens] = useState(1000); // Пример баланса токенов
+  const tokens = 1000;
+
 
   const handleConnectWallet = () => {
     setConnected(true);
@@ -18,9 +19,10 @@ const MainScreen = () => {
         {connected ? (
           <p>Telegram Wallet Connected</p>
         ) : (
-          <button onClick={handleConnectWallet} className="button-33" role="button">
+            <button onClick={handleConnectWallet} className="button-33">
             Connect <FaWallet style={{ marginLeft: '8px', marginRight: '0px' }} />
           </button>
+          
         )}
       </div>
 
