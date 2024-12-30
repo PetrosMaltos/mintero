@@ -1,36 +1,33 @@
+/* BottomNavigation.css */
 .bottom-navigation {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #000; /* Темный фон */
     display: flex;
     justify-content: space-around;
     align-items: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 70px;
-    background-color: #1a1a1a;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-    border-radius: 20px 20px 0 0;
+    padding: 15px 0; /* Увеличенные отступы */
+    border-top: 2px solid #333;
+    z-index: 1000; /* Чтобы всегда быть сверху */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Добавляем тень */
+    border-radius: 15px 15px 0 0; /* Закругляем верхние края */
   }
   
   .nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #ffffff;
-    font-family: "Sour Gummy", serif;
-    transition: color 0.3s ease-in-out;
-  }
-  
-  .nav-item:hover {
-    color: #00b4d8;
+    justify-content: center;
+    color: #fff; /* Белый цвет текста */
+    font-size: 14px; /* Увеличенный размер текста */
+    padding: 5px 10px;
+    transition: color 0.3s, transform 0.2s;
   }
   
   .nav-icon {
-    font-size: 20px;
-  }
-  
-  .nav-label {
-    margin-top: 5px;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 25px; /* Увеличенный размер иконок */
+    margin-bottom: 5px; /* Отступ между иконкой и текстом */
   }
   

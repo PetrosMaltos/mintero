@@ -4,9 +4,10 @@ import './BottomNavigation.css';
 
 const BottomNavigation = () => {
   const handleNavClick = () => {
-    // Проверяем, поддерживается ли вибрация устройством
     if ('vibrate' in navigator) {
-      navigator.vibrate(50); // Вибрация на 50 мс
+      navigator.vibrate(50); // Пробная вибрация
+    } else {
+      console.log("Vibration API не поддерживается");
     }
   };
 

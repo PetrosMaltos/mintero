@@ -12,12 +12,23 @@ const MainScreen = () => {
   const level = 1; // Пример уровня
 
   const handleConnectWallet = () => {
+    // Добавляем haptic feedback
+    if (window.Telegram?.WebApp?.triggerHapticFeedback) {
+      window.Telegram.WebApp.triggerHapticFeedback({
+        type: "impact",
+        impact_style: "medium", // Можно выбрать: light, medium, heavy
+      });
+    } else {
+      console.warn("Haptic feedback не поддерживается на этом устройстве.");
+    }
+
+    // Логика подключения кошелька
     setConnected(true);
   };
 
   return (
     <div className="main-screen">
-        <BottomNavigation />
+      <BottomNavigation />
       {/* Кнопка подключения кошелька */}
       <div className="wallet-connect">
         {connected ? (
