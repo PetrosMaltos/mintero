@@ -23,15 +23,18 @@ const MainScreen = () => {
   }, []);
 
   const handleConnectWallet = () => {
-    // Вызов haptic feedback при нажатии
+    // Вызов haptic feedback при нажатии на кнопку Connect Wallet
     if (window.Telegram?.WebApp?.triggerHapticFeedback) {
       window.Telegram.WebApp.triggerHapticFeedback({
         type: 'impact',
         impact_style: 'medium',
       });
-      console.log('Haptic feedback вызван');
+      console.log('Haptic feedback для кнопки Connect Wallet вызван');
+    } else if (navigator.vibrate) {
+      navigator.vibrate(200); // Вибрация при нажатии на кнопку, 200 миллисекунд
+      console.log('Haptic feedback с использованием API вибрации вызван');
     } else {
-      console.error('Haptic feedback не поддерживается или Telegram SDK не активен.');
+      console.error('Haptic feedback не поддерживается.');
     }
 
     setConnected(true);
@@ -78,13 +81,6 @@ const MainScreen = () => {
           <span>🎮 Level {level}</span>
           <IoIosArrowForward className="arrow-right" />
         </div>
-      </div>
-
-      {/* Новая кнопка с haptic feedback */}
-      <div className="haptic-button-container">
-        <button onClick={handleTextButtonPress} className="text-button">
-          Press Me for Haptic Feedback
-        </button>
       </div>
 
       {/* Feature Block */}

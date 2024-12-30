@@ -3,7 +3,6 @@
 body {
     background: #000;
     font-family: "Sour Gummy", serif;
-    overflow: hidden; /* Запрет прокрутки */
     height: 100%; /* Убедись, что высота страницы фиксирована */
 }
 
