@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaWallet } from 'react-icons/fa';
-import { IoIosArrowForward } from "react-icons/io";
-import { FaTelegramPlane } from "react-icons/fa";
+import { IoIosArrowForward } from 'react-icons/io';
+import { FaTelegramPlane } from 'react-icons/fa';
 import './MainScreen.css';
 import logo from './logo.png';
 import BottomNavigation from './BottomNavigation';
@@ -11,25 +11,47 @@ const MainScreen = () => {
   const tokens = 1000;
   const level = 1; // Пример уровня
 
-  const handleConnectWallet = () => {
-    // Добавляем haptic feedback
+  useEffect(() => {
+    // Выполнение haptic feedback при загрузке страницы
     if (window.Telegram?.WebApp?.triggerHapticFeedback) {
       window.Telegram.WebApp.triggerHapticFeedback({
-        type: "impact",
-        impact_style: "medium", // Можно выбрать: light, medium, heavy
+        type: 'impact',
+        impact_style: 'medium',
       });
+      console.log('Haptic feedback при загрузке страницы выполнен');
+    }
+  }, []);
+
+  const handleConnectWallet = () => {
+    // Вызов haptic feedback при нажатии
+    if (window.Telegram?.WebApp?.triggerHapticFeedback) {
+      window.Telegram.WebApp.triggerHapticFeedback({
+        type: 'impact',
+        impact_style: 'medium',
+      });
+      console.log('Haptic feedback вызван');
     } else {
-      console.warn("Haptic feedback не поддерживается на этом устройстве.");
+      console.error('Haptic feedback не поддерживается или Telegram SDK не активен.');
     }
 
-    // Логика подключения кошелька
     setConnected(true);
+  };
+
+  const handleTextButtonPress = () => {
+    // Эффект вибрации для текстовой кнопки
+    if (window.Telegram?.WebApp?.triggerHapticFeedback) {
+      window.Telegram.WebApp.triggerHapticFeedback({
+        type: 'selection',
+      });
+      console.log('Haptic feedback для текстовой кнопки вызван');
+    }
   };
 
   return (
     <div className="main-screen">
       <BottomNavigation />
-      {/* Кнопка подключения кошелька */}
+
+      {/* Эффект haptic touch */}
       <div className="wallet-connect">
         {connected ? (
           <p>Telegram Wallet Connected</p>
@@ -54,8 +76,15 @@ const MainScreen = () => {
         {/* Уровень */}
         <div className="level">
           <span>🎮 Level {level}</span>
-          <IoIosArrowForward className='arrow-right' />
+          <IoIosArrowForward className="arrow-right" />
         </div>
+      </div>
+
+      {/* Новая кнопка с haptic feedback */}
+      <div className="haptic-button-container">
+        <button onClick={handleTextButtonPress} className="text-button">
+          Press Me for Haptic Feedback
+        </button>
       </div>
 
       {/* Feature Block */}
