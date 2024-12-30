@@ -4,6 +4,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { FaTelegramPlane } from "react-icons/fa";
 import './MainScreen.css';
 import logo from './logo.png';
+import BottomNavigation from './BottomNavigation';
 
 const MainScreen = () => {
   const [connected, setConnected] = useState(false);
@@ -16,6 +17,7 @@ const MainScreen = () => {
 
   return (
     <div className="main-screen">
+        <BottomNavigation />
       {/* Кнопка подключения кошелька */}
       <div className="wallet-connect">
         {connected ? (

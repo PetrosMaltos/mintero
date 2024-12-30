@@ -25,6 +25,9 @@ body {
     transform: translateX(-50%);
 }
 
+.wallet-connect p {
+    color: #ffffff;
+}
   
 .logo img {
     width: 150px; /* Размер логотипа */
@@ -88,12 +91,11 @@ body {
     border-radius: 12px;
     font-size: 17px;
     font-weight: 600;
-    cursor: pointer;
     border: none;
     transition: background-color 0.3s ease;
     width: 100%; /* Растягиваем кнопку на всю ширину родительского контейнера */
   }
-
+  
   
   .follow-icon {
     font-size: 20px;
@@ -128,7 +130,6 @@ body {
                 rgba(44, 111, 187, 0.15) 0 8px 16px,
                 rgba(44, 111, 187, 0.15) 0 16px 32px;
     color: rgb(255, 255, 255);
-    cursor: pointer;
     font-family: "Sour Gummy", serif;
     padding: 10px 30px; /* Увеличиваем внутренние отступы */
     text-align: center;
