@@ -1,12 +1,13 @@
 import React from 'react';
 import { FaHome, FaUser, FaSuitcase, FaEnvelope } from 'react-icons/fa';
+import { GoHomeFill } from "react-icons/go";
 import './BottomNavigation.css';
 
 const BottomNavigation = () => {
   return (
     <div className="bottom-navigation">
       <div className="nav-item">
-        <FaHome className="nav-icon" />
+        <GoHomeFill className="nav-icon" />
         <span className="nav-label">Home</span>
       </div>
       <div className="nav-item">
