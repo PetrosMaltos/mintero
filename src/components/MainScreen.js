@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FaWallet } from 'react-icons/fa';
 import { IoIosArrowForward } from 'react-icons/io';
 import { FaTelegramPlane } from 'react-icons/fa';
@@ -11,50 +11,15 @@ const MainScreen = () => {
   const tokens = 1000;
   const level = 1; // Пример уровня
 
-  useEffect(() => {
-    // Выполнение haptic feedback при загрузке страницы
-    if (window.Telegram?.WebApp?.triggerHapticFeedback) {
-      window.Telegram.WebApp.triggerHapticFeedback({
-        type: 'impact',
-        impact_style: 'medium',
-      });
-      console.log('Haptic feedback при загрузке страницы выполнен');
-    }
-  }, []);
-
   const handleConnectWallet = () => {
-    // Вызов haptic feedback при нажатии на кнопку Connect Wallet
-    if (window.Telegram?.WebApp?.triggerHapticFeedback) {
-      window.Telegram.WebApp.triggerHapticFeedback({
-        type: 'impact',
-        impact_style: 'medium',
-      });
-      console.log('Haptic feedback для кнопки Connect Wallet вызван');
-    } else if (navigator.vibrate) {
-      navigator.vibrate(200); // Вибрация при нажатии на кнопку, 200 миллисекунд
-      console.log('Haptic feedback с использованием API вибрации вызван');
-    } else {
-      console.error('Haptic feedback не поддерживается.');
-    }
-
     setConnected(true);
-  };
-
-  const handleTextButtonPress = () => {
-    // Эффект вибрации для текстовой кнопки
-    if (window.Telegram?.WebApp?.triggerHapticFeedback) {
-      window.Telegram.WebApp.triggerHapticFeedback({
-        type: 'selection',
-      });
-      console.log('Haptic feedback для текстовой кнопки вызван');
-    }
   };
 
   return (
     <div className="main-screen">
       <BottomNavigation />
 
-      {/* Эффект haptic touch */}
+      {/* Кнопка подключения кошелька */}
       <div className="wallet-connect">
         {connected ? (
           <p>Telegram Wallet Connected</p>
