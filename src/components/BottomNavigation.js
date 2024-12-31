@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaHome, FaUser, FaSuitcase, FaEnvelope } from 'react-icons/fa';
+import { FaUser, FaSuitcase, FaEnvelope } from 'react-icons/fa';
 import { GoHomeFill } from "react-icons/go";
 import './BottomNavigation.css';
 
