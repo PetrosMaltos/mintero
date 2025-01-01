@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { FaWallet, FaTelegramPlane } from 'react-icons/fa';
 import { IoIosArrowForward } from 'react-icons/io';
+import { ethers } from 'ethers'; // Подключаем библиотеку ethers
 import './MainScreen.css';
 import logo from './logo.png';
 import BottomNavigation from './BottomNavigation';
 
 const MainScreen = () => {
   const [connected, setConnected] = useState(false);
+  const [walletAddress, setWalletAddress] = useState('');
   const tokens = 1000;
   const level = 1;
 
@@ -24,8 +26,21 @@ const MainScreen = () => {
     };
   }, []);
 
-  const handleConnectWallet = () => {
-    setConnected(true);
+  const handleConnectWallet = async () => {
+    if (window.ethereum) {
+      try {
+        // Запрашиваем доступ к кошельку
+        const accounts = await window.ethereum.request({
+          method: 'eth_requestAccounts',
+        });
+        setWalletAddress(accounts[0]);
+        setConnected(true);
+      } catch (error) {
+        console.error('User rejected the request');
+      }
+    } else {
+      alert('Please install MetaMask or another wallet extension');
+    }
   };
 
   return (
@@ -35,7 +50,7 @@ const MainScreen = () => {
       {/* Кнопка подключения кошелька */}
       <div className="wallet-connect">
         {connected ? (
-          <p className="wallet-status">Telegram Wallet Connected</p>
+          <p className="wallet-status">Wallet Connected: {walletAddress}</p>
         ) : (
           <button onClick={handleConnectWallet} className="button-33">
             Connect <FaWallet className="wallet-icon" />
