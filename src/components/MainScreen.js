@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaWallet, FaTelegramPlane } from 'react-icons/fa';
 import { IoIosArrowForward } from 'react-icons/io';
-import { ethers } from 'ethers'; // Подключаем библиотеку ethers
 import './MainScreen.css';
 import logo from './logo.png';
 import BottomNavigation from './BottomNavigation';
