@@ -4,12 +4,12 @@ import { IoIosArrowForward } from 'react-icons/io';
 import './MainScreen.css';
 import logo from './logo.png';
 import BottomNavigation from './BottomNavigation';
-import { TonConnectUI, TonConnect } from '@tonconnect/sdk'; // Импортируем TonConnect SDK
+import { TonConnectUI } from '@tonconnect/ui'; // Импортируем TonConnect UI
 
 const MainScreen = () => {
   const [connected, setConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
-  const [tonConnect, setTonConnect] = useState(null); // Состояние для TonConnect
+  const [tonConnectUI, setTonConnectUI] = useState(null); // Состояние для TonConnect UI
 
   const tokens = 1000;
   const level = 1;
@@ -29,8 +29,8 @@ const MainScreen = () => {
   }, []);
 
   useEffect(() => {
-    // Инициализация TonConnect
-    const tonConnectInstance = new TonConnect({
+    // Инициализация TonConnect UI
+    const tonConnectUIInstance = new TonConnectUI({
       manifest: {
         name: 'Mintero',
         description: 'Connect TON Wallet',
@@ -38,20 +38,21 @@ const MainScreen = () => {
         iconUrl: 'https://orange-high-chinchilla-505.mypinata.cloud/files/bafkreibcel5cn64uhga5vmevdzdbdm7ejodpogvcdfl5whufsel3hwjaoi?X-Algorithm=PINATA1&X-Date=1735746187&X-Expires=30&X-Method=GET&X-Signature=2e7fa319f9c0f5a431be254c2da19b35fa2e50c75ca08af80a07a9c31c859ba3',
       },
     });
-    setTonConnect(tonConnectInstance);
+
+    setTonConnectUI(tonConnectUIInstance);
   }, []);
 
   const handleConnectWallet = async () => {
-    if (tonConnect) {
+    if (tonConnectUI) {
       try {
-        const connectedAddress = await tonConnect.connect();
+        const connectedAddress = await tonConnectUI.connect(); // Запрос на подключение через TonConnect
         setWalletAddress(connectedAddress);
         setConnected(true);
       } catch (error) {
         console.error('Connection failed', error);
       }
     } else {
-      alert('TonConnect not initialized');
+      alert('TonConnect UI not initialized');
     }
   };
 
