@@ -29,18 +29,17 @@ const MainScreen = () => {
   }, []);
 
   useEffect(() => {
-    // Инициализация TonConnect UI
-    const tonConnectUIInstance = new TonConnectUI({
-      manifest: {
-        name: 'Mintero',
-        description: 'Connect TON Wallet',
-        url: 'https://github.com/PetrosMaltos',
-        iconUrl: 'https://orange-high-chinchilla-505.mypinata.cloud/files/bafkreibcel5cn64uhga5vmevdzdbdm7ejodpogvcdfl5whufsel3hwjaoi?X-Algorithm=PINATA1&X-Date=1735746187&X-Expires=30&X-Method=GET&X-Signature=2e7fa319f9c0f5a431be254c2da19b35fa2e50c75ca08af80a07a9c31c859ba3',
-      },
-    });
+    // Проверяем, был ли уже зарегистрирован элемент tc-root
+    if (!customElements.get('tc-root')) {
+      const tonConnectUIInstance = new TonConnectUI({
+        manifestUrl: 'https://orange-high-chinchilla-505.mypinata.cloud/files/bafkreibcel5cn64uhga5vmevdzdbdm7ejodpogvcdfl5whufsel3hwjaoi?X-Algorithm=PINATA1&X-Date=1735746187&X-Expires=30&X-Method=GET&X-Signature=2e7fa319f9c0f5a431be254c2da19b35fa2e50c75ca08af80a07a9c31c859ba3',
+      });
 
-    setTonConnectUI(tonConnectUIInstance);
-  }, []);
+      setTonConnectUI(tonConnectUIInstance);
+    } else {
+      console.warn('TonConnect UI already initialized');
+    }
+  }, []); // Эта зависимость пустая, чтобы инициализация происходила только один раз
 
   const handleConnectWallet = async () => {
     if (tonConnectUI) {
