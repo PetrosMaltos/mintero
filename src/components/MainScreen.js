@@ -7,7 +7,7 @@ import logo from './logo.png';
 import BottomNavigation from './BottomNavigation';
 
 const tonConnectUI = new TonConnectUI({
-  manifestUrl: 'https://orange-high-chinchilla-505.mypinata.cloud/files/bafkreicpxqtgrsant437cjhffd6cjnquuypqhc4oiwnj73gfmaqqdg5gsa?X-Algorithm=PINATA1&X-Date=1735751175&X-Expires=30&X-Method=GET&X-Signature=1fb9030424a66c242e23f47c21c36028abc94a7f02ba3945b9b0105b8f76f45c', // Новый URL манифеста
+  manifestUrl: 'https://orange-high-chinchilla-505.mypinata.cloud/files/bafkreicpxqtgrsant437cjhffd6cjnquuypqhc4oiwnj73gfmaqqdg5gsa?X-Algorithm=PINATA1&X-Date=1735753398&X-Expires=30&X-Method=GET&X-Signature=9102060cd282d355047970df81c4e33d8357d6cc11e0daa779d93433fb9025ca', // Новый URL манифеста
 });
 
 const MainScreen = () => {
@@ -21,16 +21,19 @@ const MainScreen = () => {
     try {
       await tonConnectUI.connectWallet();
     } catch (error) {
-      // Обрабатываем ошибку
+      console.error('Failed to connect wallet:', error);
     }
   };
 
   const disconnectWallet = async () => {
     try {
-      await tonConnectUI.disconnectWallet();
-      setIsDisconnectModalOpen(false);
+      // Используем метод disconnect вместо disconnectWallet
+      await tonConnectUI.disconnect();
+      setIsDisconnectModalOpen(false); // Закрываем модальное окно
+      setIsWalletConnected(false); // Обновляем состояние подключения
+      setWalletAddress(null); // Очищаем адрес кошелька
     } catch (error) {
-      // Обрабатываем ошибку
+      console.error('Failed to disconnect wallet:', error);
     }
   };
 
@@ -104,18 +107,14 @@ const MainScreen = () => {
       {/* Модальное окно отключения кошелька */}
       {isDisconnectModalOpen && (
         <div className="disconnect-modal">
-          <div className="disconnect-modal-content">
-            <div className="ton-icon">TON</div>
-            <h2>Disconnect Wallet?</h2>
-            <p>Are you sure you want to disconnect your wallet?</p>
-            <button className="button-33" onClick={disconnectWallet}>
-              Disconnect
-            </button>
-            <button className="button-33" style={{ marginLeft: 10 }} onClick={() => setIsDisconnectModalOpen(false)}>
-              Cancel
-            </button>
-          </div>
+        <div className="disconnect-modal-content">
+          <div className="ton-icon">TON</div>
+          <h2>Disconnect Wallet?</h2>
+          <p>Are you sure you want to disconnect your wallet?</p>
+          <button className="button-33" onClick={disconnectWallet}>Yeah</button>
+          <button className="button-33" style={{ marginLeft: 10 }} onClick={() => setIsDisconnectModalOpen(false)}>Cancel</button>
         </div>
+      </div>
       )}
     </div>
   );
