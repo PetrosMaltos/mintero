@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaWallet, FaTelegramPlane } from 'react-icons/fa';
 import { IoIosArrowForward } from 'react-icons/io';
 import { TonConnectUI } from '@tonconnect/ui';
+import { PrismaClient } from '@prisma/client';
 import './MainScreen.css';
 import logo from './logo.png';
 import BottomNavigation from './BottomNavigation';
@@ -10,12 +11,50 @@ const tonConnectUI = new TonConnectUI({
   manifestUrl: 'https://orange-high-chinchilla-505.mypinata.cloud/ipfs/bafkreicpxqtgrsant437cjhffd6cjnquuypqhc4oiwnj73gfmaqqdg5gsa', // Новый URL манифеста
 });
 
+const prisma = new PrismaClient();
+
 const MainScreen = () => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState(null);
   const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);
-  const tokens = 1000;
-  const level = 1;
+  const [tokens, setTokens] = useState(0);
+  const [level, setLevel] = useState(1);
+  const [telegramId, setTelegramId] = useState(null);
+
+  // Получаем telegramId из Telegram Web App
+  useEffect(() => {
+    /* eslint-disable no-undef */
+    const initData = Telegram.WebApp.initData;
+    const params = new URLSearchParams(initData);
+    const userId = params.get('user') ? JSON.parse(params.get('user')).id : null;
+    setTelegramId(userId);
+
+    // Регистрируем пользователя и загружаем данные
+    const registerAndLoadUser   = async () => {
+      if (userId) {
+        let user = await prisma.user.findUnique({
+          where: { telegramId: userId },
+        });
+
+        // Если пользователь не найден, регистрируем его
+        if (!user) {
+          user = await prisma.user.create({
+            data: {
+              telegramId: userId,
+              tokens: 0,
+              level: 1,
+            },
+          });
+        }
+
+        // Устанавливаем данные пользователя
+        setTokens(user.tokens);
+        setLevel(user.level);
+      }
+    };
+
+    registerAndLoadUser  ();
+  }, []);
 
   const connectWallet = async () => {
     try {
@@ -40,26 +79,33 @@ const MainScreen = () => {
     const unsubscribe = tonConnectUI.onStatusChange((wallet) => {
       if (wallet) {
         setIsWalletConnected(true);
-        setWalletAddress(wallet.account.address); // Сохраняем адрес кошелька
+        setWalletAddress(wallet.account.address); // Сохраня ```javascript
+        // Сохраняем адрес кошелька
       } else {
         setIsWalletConnected(false);
         setWalletAddress(null);
       }
     });
-  
+
     return () => unsubscribe();
   }, []);
 
- // Функция для сокращения адреса
-const shortenAddress = (address) => {
-  if (!address) return '';
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
-};
+  // Функция для сокращения адреса
+  const shortenAddress = (address) => {
+    if (!address) return '';
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  };
 
+  const handleFollowCommunity = () => {
+    if (window.Telegram && window.Telegram.WebApp) {
+      // Используем Telegram.WebApp.openLink для открытия ссылки
+      window.Telegram.WebApp.openLink('https://t.me/minterofam');
+    } else {
+      // Если приложение запущено не в Telegram, используем стандартный метод
+      window.location.href = 'https://t.me/minterofam';
+    }
+  };
 
-const handleFollowCommunity = () => {
-  window.location.href = 'https://t.me/minterofam'; // Перенаправляем на канал
-};
   return (
     <div className="main-screen">
       {/* Нижняя навигация */}
@@ -99,8 +145,8 @@ const handleFollowCommunity = () => {
         </div>
       </div>
 
-     {/* Блок функций */}
-     <div className="feature">
+      {/* Блок функций */}
+      <div className="feature">
         <div className="follow-community">
           <button className="button-follow" onClick={handleFollowCommunity}>
             <FaTelegramPlane className="follow-icon" />
@@ -112,7 +158,7 @@ const handleFollowCommunity = () => {
           <p>Game coming soon...</p>
         </div>
       </div>
-      
+
       {/* Модальное окно отключения кошелька */}
       {isDisconnectModalOpen && (
         <div className="disconnect-modal">
@@ -123,7 +169,7 @@ const handleFollowCommunity = () => {
             <button className="button-33" onClick={disconnectWallet}>
               Disconnect
             </button>
-            <button className="button-33" onClick={() => setIsDisconnectModalOpen(false)}>
+            <button className="button-33" style={{ marginLeft: 10 }} onClick={() => setIsDisconnectModalOpen(false)}>
               Cancel
             </button>
           </div>
