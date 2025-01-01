@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { FaWallet } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaWallet, FaTelegramPlane } from 'react-icons/fa';
 import { IoIosArrowForward } from 'react-icons/io';
-import { FaTelegramPlane } from 'react-icons/fa';
 import './MainScreen.css';
 import logo from './logo.png';
 import BottomNavigation from './BottomNavigation';
@@ -9,7 +8,16 @@ import BottomNavigation from './BottomNavigation';
 const MainScreen = () => {
   const [connected, setConnected] = useState(false);
   const tokens = 1000;
-  const level = 1; // Пример уровня
+  const level = 1;
+
+  // Сброс скроллинга
+  useEffect(() => {
+    const preventScroll = () => {
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('scroll', preventScroll);
+    return () => window.removeEventListener('scroll', preventScroll);
+  }, []);
 
   const handleConnectWallet = () => {
     setConnected(true);
@@ -22,7 +30,7 @@ const MainScreen = () => {
       {/* Кнопка подключения кошелька */}
       <div className="wallet-connect">
         {connected ? (
-          <p>Telegram Wallet Connected</p>
+          <p className="wallet-status">Telegram Wallet Connected</p>
         ) : (
           <button onClick={handleConnectWallet} className="button-33">
             Connect <FaWallet style={{ marginLeft: '8px', marginRight: '0px' }} />
@@ -41,16 +49,14 @@ const MainScreen = () => {
           <span className="token-number">{tokens}</span>
           <span className="token-label">Mintero</span>
         </div>
-        {/* Уровень */}
         <div className="level">
           <span>🎮 Level {level}</span>
           <IoIosArrowForward className="arrow-right" />
         </div>
       </div>
 
-      {/* Feature Block */}
+      {/* Блок функций */}
       <div className="feature">
-        {/* Follow Community Button */}
         <div className="follow-community">
           <button className="button-follow">
             <FaTelegramPlane className="follow-icon" />
@@ -58,8 +64,6 @@ const MainScreen = () => {
             <IoIosArrowForward className="arrow-icon" />
           </button>
         </div>
-
-        {/* Game Placeholder */}
         <div className="game-placeholder">
           <p>Game coming soon...</p>
         </div>
