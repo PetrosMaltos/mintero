@@ -27,7 +27,6 @@ const MainScreen = () => {
 
   const disconnectWallet = async () => {
     try {
-      // Используем метод disconnect вместо disconnectWallet
       await tonConnectUI.disconnect();
       setIsDisconnectModalOpen(false); // Закрываем модальное окно
       setIsWalletConnected(false); // Обновляем состояние подключения
@@ -41,16 +40,26 @@ const MainScreen = () => {
     const unsubscribe = tonConnectUI.onStatusChange((wallet) => {
       if (wallet) {
         setIsWalletConnected(true);
-        setWalletAddress(wallet.account.address);
+        setWalletAddress(wallet.account.address); // Сохраняем адрес кошелька
       } else {
         setIsWalletConnected(false);
         setWalletAddress(null);
       }
     });
-
+  
     return () => unsubscribe();
   }, []);
 
+ // Функция для сокращения адреса
+const shortenAddress = (address) => {
+  if (!address) return '';
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
+};
+
+
+const handleFollowCommunity = () => {
+  window.location.href = 'https://t.me/minterofam'; // Перенаправляем на канал
+};
   return (
     <div className="main-screen">
       {/* Нижняя навигация */}
@@ -64,7 +73,7 @@ const MainScreen = () => {
         >
           {isWalletConnected ? (
             <span>
-              {walletAddress.slice(0, 6)}...{walletAddress.slice(-4)}
+              {shortenAddress(walletAddress)}
             </span>
           ) : (
             <span>Connect</span>
@@ -90,10 +99,10 @@ const MainScreen = () => {
         </div>
       </div>
 
-      {/* Блок функций */}
-      <div className="feature">
+     {/* Блок функций */}
+     <div className="feature">
         <div className="follow-community">
-          <button className="button-follow">
+          <button className="button-follow" onClick={handleFollowCommunity}>
             <FaTelegramPlane className="follow-icon" />
             Follow Community
             <IoIosArrowForward className="arrow-icon" />
@@ -103,18 +112,22 @@ const MainScreen = () => {
           <p>Game coming soon...</p>
         </div>
       </div>
-
+      
       {/* Модальное окно отключения кошелька */}
       {isDisconnectModalOpen && (
         <div className="disconnect-modal">
-        <div className="disconnect-modal-content">
-          <div className="ton-icon">TON</div>
-          <h2>Disconnect Wallet?</h2>
-          <p>Are you sure you want to disconnect your wallet?</p>
-          <button className="button-33" onClick={disconnectWallet}>Yeah</button>
-          <button className="button-33" style={{ marginLeft: 10 }} onClick={() => setIsDisconnectModalOpen(false)}>Cancel</button>
+          <div className="disconnect-modal-content">
+            <div className="ton-icon">TON</div>
+            <h2>Disconnect Wallet?</h2>
+            <p>Are you sure you want to disconnect your wallet?</p>
+            <button className="button-33" onClick={disconnectWallet}>
+              Disconnect
+            </button>
+            <button className="button-33" onClick={() => setIsDisconnectModalOpen(false)}>
+              Cancel
+            </button>
+          </div>
         </div>
-      </div>
       )}
     </div>
   );
