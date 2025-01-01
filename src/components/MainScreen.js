@@ -19,46 +19,41 @@ const MainScreen = () => {
   const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);
   const [tokens, setTokens] = useState(0);
   const [level, setLevel] = useState(1);
-  const [setTelegramId] = useState(null);
+  const [telegramId, setTelegramId] = useState(null);
 
   // Получаем telegramId из Telegram Web App
   useEffect(() => {
-    if (window.Telegram && window.Telegram.WebApp) {
-      const initData = window.Telegram.WebApp.initData;
-      const params = new URLSearchParams(initData);
-      const user = params.get('user') ? JSON.parse(params.get('user')) : null;
-      if (user) {
-        setTelegramId(user.id); // Извлекаем telegramId
-      }
+    /* eslint-disable no-undef */
+    const initData = Telegram.WebApp.initData;
+    const params = new URLSearchParams(initData);
+    const userId = params.get('user') ? JSON.parse(params.get('user')).id : null;
+    setTelegramId(userId);
 
-      // Регистрируем пользователя и загружаем данные
-      const registerAndLoadUser         = async () => {
-        if (user && user.id) {
-          let userData = await prisma.user.findUnique({
-            where: { telegramId: user.id },
+    // Регистрируем пользователя и загружаем данные
+    const registerAndLoadUser   = async () => {
+      if (userId) {
+        let user = await prisma.user.findUnique({
+          where: { telegramId: userId },
+        });
+
+        // Если пользователь не найден, регистрируем его
+        if (!user) {
+          user = await prisma.user.create({
+            data: {
+              telegramId: userId,
+              tokens: 0,
+              level: 1,
+            },
           });
-
-          // Если пользователь не найден, регистрируем его
-          if (!userData) {
-            userData = await prisma.user.create({
-              data: {
-                telegramId: user.id,
-                tokens: 0,
-                level: 1,
-              },
-            });
-          }
-
-          // Устанавливаем данные пользователя
-          setTokens(userData.tokens);
-          setLevel(userData.level);
         }
-      };
 
-      registerAndLoadUser        ();
-    } else {
-      console.log('Приложение запущено вне Telegram');
-    }
+        // Устанавливаем данные пользователя
+        setTokens(user.tokens);
+        setLevel(user.level);
+      }
+    };
+
+    registerAndLoadUser  ();
   }, []);
 
   const connectWallet = async () => {
@@ -84,7 +79,8 @@ const MainScreen = () => {
     const unsubscribe = tonConnectUI.onStatusChange((wallet) => {
       if (wallet) {
         setIsWalletConnected(true);
-        setWalletAddress(wallet.account.address); // Сохраняем адрес кошелька
+        setWalletAddress(wallet.account.address); // Сохраня ```javascript
+        // Сохраняем адрес кошелька
       } else {
         setIsWalletConnected(false);
         setWalletAddress(null);
@@ -101,7 +97,7 @@ const MainScreen = () => {
   };
 
   const handleFollowCommunity = () => {
-    if (window.Telegram && window .Telegram.WebApp) {
+    if (window.Telegram && window.Telegram.WebApp) {
       // Используем Telegram.WebApp.openLink для открытия ссылки
       window.Telegram.WebApp.openLink('https://t.me/minterofam');
     } else {
