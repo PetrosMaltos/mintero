@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; // Добавили useEffect
+import React, { useState } from 'react';
 import { FaWallet } from 'react-icons/fa';
 import { IoIosArrowForward } from 'react-icons/io';
 import { FaTelegramPlane } from 'react-icons/fa';
@@ -14,17 +14,6 @@ const MainScreen = () => {
   const handleConnectWallet = () => {
     setConnected(true);
   };
-
-  // Блокировка прокрутки
-  useEffect(() => {
-    const preventScroll = (e) => e.preventDefault();
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('scroll', preventScroll, { passive: false });
-    return () => {
-      document.body.style.overflow = 'auto';
-      window.removeEventListener('scroll', preventScroll);
-    };
-  }, []); // Пустой массив зависимостей, чтобы эффект выполнялся только при монтировании/размонтировании
 
   return (
     <div className="main-screen">
