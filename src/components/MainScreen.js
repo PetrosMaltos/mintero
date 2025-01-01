@@ -19,7 +19,7 @@ const MainScreen = () => {
   const [isDisconnectModalOpen, setIsDisconnectModalOpen] = useState(false);
   const [tokens, setTokens] = useState(0);
   const [level, setLevel] = useState(1);
-  const [telegramId, setTelegramId] = useState(null);
+  const [setTelegramId] = useState(null);
 
   // Получаем telegramId из Telegram Web App
   useEffect(() => {
