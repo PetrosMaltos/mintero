@@ -10,13 +10,18 @@ const MainScreen = () => {
   const tokens = 1000;
   const level = 1;
 
-  // Сброс скроллинга
   useEffect(() => {
-    const preventScroll = () => {
-      window.scrollTo(0, 0);
+    const preventTouchMove = (e) => {
+      if (!e.target.closest('.scrollable')) {
+        e.preventDefault(); // Блокируем движение
+      }
     };
-    window.addEventListener('scroll', preventScroll);
-    return () => window.removeEventListener('scroll', preventScroll);
+
+    document.addEventListener('touchmove', preventTouchMove, { passive: false });
+
+    return () => {
+      document.removeEventListener('touchmove', preventTouchMove);
+    };
   }, []);
 
   const handleConnectWallet = () => {
@@ -33,7 +38,7 @@ const MainScreen = () => {
           <p className="wallet-status">Telegram Wallet Connected</p>
         ) : (
           <button onClick={handleConnectWallet} className="button-33">
-            Connect <FaWallet style={{ marginLeft: '8px', marginRight: '0px' }} />
+            Connect <FaWallet className="wallet-icon" />
           </button>
         )}
       </div>
@@ -64,7 +69,7 @@ const MainScreen = () => {
             <IoIosArrowForward className="arrow-icon" />
           </button>
         </div>
-        <div className="game-placeholder">
+        <div className="game-placeholder scrollable">
           <p>Game coming soon...</p>
         </div>
       </div>

@@ -9,6 +9,12 @@ body {
   overflow: hidden; /* Отключаем скроллинг */
 }
 
+.scrollable {
+  overflow-y: auto; /* Включаем вертикальный скроллинг */
+  max-height: 200px; /* Ограничиваем высоту области */
+}
+
+
 .main-screen {
   display: flex;
   flex-direction: column;
