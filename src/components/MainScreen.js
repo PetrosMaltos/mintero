@@ -8,7 +8,7 @@ import BottomNavigation from './BottomNavigation';
 
 // Инициализация TonConnectUI вне компонента
 const tonConnectUI = new TonConnectUI({
-  manifestUrl: 'https://orange-high-chinchilla-505.mypinata.cloud/files/bafkreiaj7d2pebqjsuuscvfbcwduhrgrprbwqsjtjqnkccx5lvgd2k757a?X-Algorithm=PINATA1&X-Date=1735749046&X-Expires=30&X-Method=GET&X-Signature=17e430647a4ade70145952de4d9aa3008bf6665619cd17aea429a7bd7edde30f',
+  manifestUrl: 'https://orange-high-chinchilla-505.mypinata.cloud/files/bafkreibondxmuqgobeyclcdtt3xfmktdaagxzawmwo3t2ice7xwtnmmwe4?X-Algorithm=PINATA1&X-Date=1735749982&X-Expires=30&X-Method=GET&X-Signature=6ed5e3e3a729148f7f465c2b9a8f2b2011e3a67ac4067654266b6701508f9aed', // Новый URL манифеста
 });
 
 const MainScreen = () => {
