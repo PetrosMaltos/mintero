@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { FaWallet, FaTelegramPlane } from 'react-icons/fa';
 import { IoIosArrowForward } from 'react-icons/io';
 import './MainScreen.css';
@@ -5,17 +6,30 @@ import logo from './logo.png';
 import BottomNavigation from './BottomNavigation';
 
 const MainScreen = () => {
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
   const tokens = 1000;
   const level = 1;
+  const tg = window.Telegram.WebApp;
+
+  // Функция для подключения кошелька
+  const connectWallet = () => {
+    const walletData = {
+      action: 'connect_wallet',
+      userId: tg.initDataUnsafe.user?.id,
+    };
+    tg.sendData(JSON.stringify(walletData));
+    setIsWalletConnected(true);
+  };
 
   return (
     <div className="main-screen">
+      {/* Нижняя навигация */}
       <BottomNavigation />
 
       {/* Кнопка подключения кошелька */}
       <div className="wallet-connect">
-        <button className="button-33">
-          Connect <FaWallet className="wallet-icon" />
+        <button className="button-33" onClick={connectWallet}>
+          {isWalletConnected ? 'Connected' : 'Connect'} <FaWallet className="wallet-icon" />
         </button>
       </div>
 
