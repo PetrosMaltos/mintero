@@ -4,10 +4,13 @@ import { IoIosArrowForward } from 'react-icons/io';
 import './MainScreen.css';
 import logo from './logo.png';
 import BottomNavigation from './BottomNavigation';
+import { TonConnectUI, TonConnect } from '@tonconnect/sdk'; // Импортируем TonConnect SDK
 
 const MainScreen = () => {
   const [connected, setConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
+  const [tonConnect, setTonConnect] = useState(null); // Состояние для TonConnect
+
   const tokens = 1000;
   const level = 1;
 
@@ -25,20 +28,30 @@ const MainScreen = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Инициализация TonConnect
+    const tonConnectInstance = new TonConnect({
+      manifest: {
+        name: 'Mintero',
+        description: 'Connect TON Wallet',
+        url: 'https://github.com/PetrosMaltos',
+        iconUrl: 'https://orange-high-chinchilla-505.mypinata.cloud/files/bafkreibcel5cn64uhga5vmevdzdbdm7ejodpogvcdfl5whufsel3hwjaoi?X-Algorithm=PINATA1&X-Date=1735746187&X-Expires=30&X-Method=GET&X-Signature=2e7fa319f9c0f5a431be254c2da19b35fa2e50c75ca08af80a07a9c31c859ba3',
+      },
+    });
+    setTonConnect(tonConnectInstance);
+  }, []);
+
   const handleConnectWallet = async () => {
-    if (window.ethereum) {
+    if (tonConnect) {
       try {
-        // Запрашиваем доступ к кошельку
-        const accounts = await window.ethereum.request({
-          method: 'eth_requestAccounts',
-        });
-        setWalletAddress(accounts[0]);
+        const connectedAddress = await tonConnect.connect();
+        setWalletAddress(connectedAddress);
         setConnected(true);
       } catch (error) {
-        console.error('User rejected the request');
+        console.error('Connection failed', error);
       }
     } else {
-      alert('Please install MetaMask or another wallet extension');
+      alert('TonConnect not initialized');
     }
   };
 
