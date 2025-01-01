@@ -7,7 +7,7 @@ import logo from './logo.png';
 import BottomNavigation from './BottomNavigation';
 
 const tonConnectUI = new TonConnectUI({
-  manifestUrl: 'https://orange-high-chinchilla-505.mypinata.cloud/files/bafkreicpxqtgrsant437cjhffd6cjnquuypqhc4oiwnj73gfmaqqdg5gsa?X-Algorithm=PINATA1&X-Date=1735753398&X-Expires=30&X-Method=GET&X-Signature=9102060cd282d355047970df81c4e33d8357d6cc11e0daa779d93433fb9025ca', // Новый URL манифеста
+  manifestUrl: 'https://orange-high-chinchilla-505.mypinata.cloud/ipfs/bafkreicpxqtgrsant437cjhffd6cjnquuypqhc4oiwnj73gfmaqqdg5gsa', // Новый URL манифеста
 });
 
 const MainScreen = () => {
