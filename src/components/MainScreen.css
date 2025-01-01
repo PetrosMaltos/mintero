@@ -193,3 +193,40 @@ body {
     background-color: #666;
   }
   
+
+  .disconnect-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.466);
+    backdrop-filter: blur(5px); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  }
+  
+  .disconnect-modal-content {
+    background: #ffffffd0;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .ton-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+    color: #0085f1; /* Цвет иконки TON */
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
